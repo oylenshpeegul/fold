@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2018-03-24 Sat 17:17 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fold</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Tim Heaney" />
+<link rel="stylesheet" type="text/css" href="common.css" />
+<link rel="stylesheet" type="text/css" href="screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="projection.css" media="projection" />
+<link rel="stylesheet" type="text/css" href="presenter.css" media="presenter" />
+</head>
+<body>
+<div id="content">
+<h1 class="title">Fold</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgaf40367">Fold&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org50c717c">fold&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#orgb603688">associativity&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org1b6ce9d">Elm example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#orgf38fccb">Elm example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org85fea86">Elm example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#orgfb42460">Elm example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#orgd4c834e">reduce&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org56f0cf1">Elixir Example</a></li>
+<li><a href="#org1b177bb">Defining folds in Clojure&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org962188d">Clojure Example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org5d939c7">Clojure reducers and transducers&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org72a1100">Re-writing things with foldr&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org1cb40b7">Sum of a list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org5cf5641">Product of a list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#orgd525d18">Length of a list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#orgbd43299">Boolean tests&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org4bc1835">Reverse a list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org2aa3007">Map a function to a list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org2e26395">Reference&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+<li><a href="#org550a312">Contact&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgaf40367" class="outline-2">
+<h2 id="orgaf40367">Fold&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-orgaf40367">
+<ul class="org-ul">
+<li>Fold is a fundamental recursive function. It has many names
+<ul class="org-ul">
+<li><a href="https://en.wikipedia.org/wiki/Fold_(higher-order_function)">fold</a></li>
+<li>reduce</li>
+<li>inject</li>
+<li>&#x2026;</li>
+</ul></li>
+<li>Any <a href="https://en.wikipedia.org/wiki/Primitive_recursive_function">primitive recursive function</a> can be written as a fold.</li>
+<li>A <a href="https://en.wikipedia.org/wiki/Fixed_point_combinator">fixed point combinator</a> can be implemented with fold.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org50c717c" class="outline-2">
+<h2 id="org50c717c">fold&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org50c717c">
+<ul class="org-ul">
+<li><b>fold</b> is a whole family of functions</li>
+<li>finite or infinite</li>
+<li>eager or lazy</li>
+<li>right- or left-associative (<code>foldr</code>, <code>foldl</code>)
+<ul class="org-ul">
+<li>Elm has <code>foldp</code> ("fold from the past")</li>
+</ul></li>
+<li>List folds, tree folds, general folds</li>
+<li>catamorphism : fold :: anamorphism : unfold</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb603688" class="outline-2">
+<h2 id="orgb603688">associativity&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-orgb603688">
+<ul class="org-ul">
+<li><code>foldr</code> -&gt; 1 + (2 + (3 + 4))</li>
+<li><code>foldl</code> -&gt; ((1 + 2) + 3)+ 4</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1b6ce9d" class="outline-2">
+<h2 id="org1b6ce9d">Elm example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org1b6ce9d">
+<ul class="org-ul">
+<li>Elm shows this difference nicely</li>
+<li>It has both List.foldr and List.foldl</li>
+<li>We can use Debug to see what it's doing</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf38fccb" class="outline-2">
+<h2 id="orgf38fccb">Elm example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-orgf38fccb">
+<pre class="example">
+$ elm-repl
+
+&gt; List.foldr (+) 0 [1,2,3,4]
+10 : number
+
+&gt; List.foldl (+) 0 [1,2,3,4]
+10 : number
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org85fea86" class="outline-2">
+<h2 id="org85fea86">Elm example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org85fea86">
+<pre class="example">
+&gt; List.foldr (\a b -&gt; a + b ) 0 [1,2,3,4]
+10 : number
+
+&gt; List.foldl (\a b -&gt; a + b ) 0 [1,2,3,4]
+10 : number
+
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgfb42460" class="outline-2">
+<h2 id="orgfb42460">Elm example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-orgfb42460">
+<pre class="example">
+&gt; List.foldr (\a b -&gt; a + b |&gt; Debug.log ((toString a)++" + "++(toString b))) 0 [1,2,3,4]
+4 + 0: 4
+3 + 4: 7
+2 + 7: 9
+1 + 9: 10
+10
+	: number
+
+&gt; List.foldl (\a b -&gt; a + b |&gt; Debug.log ((toString a)++" + "++(toString b))) 0 [1,2,3,4]
+1 + 0: 1
+2 + 1: 3
+3 + 3: 6
+4 + 6: 10
+10
+	: number
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd4c834e" class="outline-2">
+<h2 id="orgd4c834e">reduce&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-orgd4c834e">
+<ul class="org-ul">
+<li>Clojure (and many other languages) have <code>reduce</code></li>
+<li>This is the same as <code>foldl</code></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-clojure">(reduce + [1 2 3 4<span style="color: #999999;">])</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org56f0cf1" class="outline-2">
+<h2 id="org56f0cf1">Elixir Example</h2>
+<div class="outline-text-2" id="text-org56f0cf1">
+<pre class="example">
+iex&gt; Enum.sum [1, 2, 3, 4]    
+10
+iex&gt; Enum.reduce [1, 2, 3, 4], 0, &amp;(&amp;1 + &amp;2)
+10
+iex&gt; List.foldr [1, 2, 3, 4], 0, &amp;(&amp;1 + &amp;2)
+10
+iex&gt; List.foldl [1, 2, 3, 4], 0, &amp;(&amp;1 + &amp;2) 
+10
+iex&gt; Enum.scan 1..4, 0, &amp;(&amp;1 + &amp;2)                
+[1, 3, 6, 10]
+iex&gt; Enum.to_list(Stream.scan 1..4, 0, &amp;(&amp;1 + &amp;2))  
+[1, 3, 6, 10]
+
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org1b177bb" class="outline-2">
+<h2 id="org1b177bb">Defining folds in Clojure&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org1b177bb">
+<div class="org-src-container">
+<pre class="src src-clojure">(<span style="color: #8959a8;">defn</span> <span style="color: #4271ae;">foldr</span> [f val coll<span style="color: #999999;">]</span>
+  (<span style="color: #8959a8;">if</span> (empty? coll) val
+    (f (foldr f val (rest coll)) (first coll<span style="color: #999999;">))))</span>
+
+(<span style="color: #8959a8;">defn</span> <span style="color: #4271ae;">foldl</span> [f val coll<span style="color: #999999;">]</span>
+  (<span style="color: #8959a8;">if</span> (empty? coll) val
+    (foldl f (f val (first coll)) (rest coll<span style="color: #999999;">))))</span>
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org962188d" class="outline-2">
+<h2 id="org962188d">Clojure Example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org962188d">
+<pre class="example">
+user=&gt; (+ 1 2 3 4)
+10
+user=&gt; (reduce + [1 2 3 4])
+10
+user=&gt; (foldr + 0 [1 2 3 4])
+10
+user=&gt; (foldl + 0 [1 2 3 4])
+10
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org5d939c7" class="outline-2">
+<h2 id="org5d939c7">Clojure reducers and transducers&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org5d939c7">
+<ul class="org-ul">
+<li><a href="https://clojuredocs.org/clojure.core.reducers/fold">https://clojuredocs.org/clojure.core.reducers/fold</a></li>
+<li><a href="https://clojure.org/reference/transducers">https://clojure.org/reference/transducers</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org72a1100" class="outline-2">
+<h2 id="org72a1100">Re-writing things with foldr&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org72a1100">
+<pre class="example">
+$ elm-repl 
+&gt; import List exposing (foldr)
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1cb40b7" class="outline-2">
+<h2 id="org1cb40b7">Sum of a list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org1cb40b7">
+<pre class="example">
+&gt; sum xs = foldr (+) 0 xs
+&lt;function&gt; : List number -&gt; number
+&gt; sum [1,2,3,4]
+10 : number
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org5cf5641" class="outline-2">
+<h2 id="org5cf5641">Product of a list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org5cf5641">
+<pre class="example">
+&gt; product xs = foldr (*) 1 xs
+&lt;function&gt; : List number -&gt; number
+&gt; product [1,2,3,4]
+24 : number
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd525d18" class="outline-2">
+<h2 id="orgd525d18">Length of a list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-orgd525d18">
+<pre class="example">
+&gt; length xs = foldr (\x y -&gt; 1 + y) 0 xs
+&lt;function&gt; : List a -&gt; number
+&gt; length [1,2,3,4]
+4 : number
+&gt; length []
+0 : number
+&gt; length [1,2,3,9,0]
+5 : number
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgbd43299" class="outline-2">
+<h2 id="orgbd43299">Boolean tests&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-orgbd43299">
+<pre class="example">
+&gt; all p xs = foldr (\x y -&gt; (p x) &amp;&amp; y) True xs
+&lt;function&gt; : (a -&gt; Bool) -&gt; List a -&gt; Bool
+&gt; all (\x -&gt; x &gt; 5) [1,2,3,4]
+False : Bool
+&gt; all (\x -&gt; x &lt; 5) [1,2,3,4]
+True : Bool
+
+&gt; any p xs = foldr (\x y -&gt; (p x) || y) False xs
+&lt;function&gt; : (a -&gt; Bool) -&gt; List a -&gt; Bool
+&gt; any (\x -&gt; x &lt; 3) [1,2,3,4]
+True : Bool
+&gt; any (\x -&gt; x &gt; 5) [1,2,3,4]
+False : Bool
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org4bc1835" class="outline-2">
+<h2 id="org4bc1835">Reverse a list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org4bc1835">
+<ul class="org-ul">
+<li>List append in Elm is ++</li>
+</ul>
+<pre class="example">
+&gt; reverse xs = foldr (\x y -&gt; y ++ [x]) [] xs
+&lt;function&gt; : List a -&gt; List a
+&gt; reverse [1,2,3,4]
+[4,3,2,1] : List number
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org2aa3007" class="outline-2">
+<h2 id="org2aa3007">Map a function to a list&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org2aa3007">
+<ul class="org-ul">
+<li>List cons in Elm is ::</li>
+</ul>
+<pre class="example">
+&gt; map f xs = foldr (\x y -&gt; f x :: y) [] xs
+&lt;function&gt; : (a -&gt; b) -&gt; List a -&gt; List b
+&gt; map (\x -&gt; x + 10) [1,2,3,4]
+[11,12,13,14] : List number
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org2e26395" class="outline-2">
+<h2 id="org2e26395">Reference&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org2e26395">
+<ul class="org-ul">
+<li>Graham Hutton</li>
+<li>A tutorial on the universality and expressiveness of fold</li>
+<li>Journal of Functional Programming, July 1999</li>
+<li><a href="http://www.cs.nott.ac.uk/~pszgmh/fold.pdf">fold.pdf</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org550a312" class="outline-2">
+<h2 id="org550a312">Contact&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slide">slide</span></span></h2>
+<div class="outline-text-2" id="text-org550a312">
+<ul class="org-ul">
+<li>@oylenshpeegul</li>
+<li>oylenshpeegul@gmail.com</li>
+</ul>
+
+
+<script type="text/javascript" src="org-html-slideshow.js"></script>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Tim Heaney</p>
+<p class="date">Created: 2018-03-24 Sat 17:17</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
