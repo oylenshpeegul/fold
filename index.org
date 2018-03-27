@@ -193,7 +193,7 @@ False : Bool
 
 * reduce                                                              :slide:
 
-- Clojure (and many other languages) have ~reduce~
+- Clojure (like many other languages) has ~reduce~
 - This is the same as ~foldl~
 
 #+BEGIN_SRC clojure
