@@ -20,6 +20,7 @@
 - eager or lazy
 - right- or left-associative (~foldr~, ~foldl~)
   + Elm has ~foldp~ ("fold from the past")
+  + Spark has ~foldByKey~
 - List folds, tree folds, general folds
 - catamorphism \colon fold \colon\colon anamorphism \colon unfold
 
@@ -60,7 +61,6 @@ foldl :: (b -> a -> b) -> b -> List a -> b
 - sequence of cons cells (ending in nil)
 - 1:2:3:4:[]
 
-
 * lazy lists                                                          :slide:
 
 - sequence of cons cells
@@ -89,7 +89,6 @@ it cannot work on an infinite list
 1. replace /any/ occurrence of ~nil~ with ~v~
 
 if ~nil~ is absent, we have an infinite list
-
 
 * Elm example                                                         :slide:
 
@@ -120,7 +119,6 @@ $ elm-repl
 10 : number
 
 #+END_SRC
-
 
 * Elm example                                                         :slide:
 
@@ -290,7 +288,6 @@ user=> (foldl + 0 [1 2 3 4])
 - Explain List Folds to Yourself
 - Brisbane Functional Programming Group, 23 April 2013
 - [[http://blog.tmorris.net/posts/list-folds-bfpg/index.html][List Folds at BFPG]]
-
 
 * Contact                                                             :slide:
 
